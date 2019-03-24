@@ -18,24 +18,50 @@ void unmarkPath(int,int,vector<vector<char>> &maze,size_t size);
 		{'#','#','#','#','#','#'},
 		{'.','.','.','.','.','#'},
 		{'#','.', '#','#','#','#'},
-		{'#','.', '#','#','#','#'},
+		{'#','.', '#','#','.','#'},
 		{'.','.', '.','#','.','.'},
 		{'#','#', '.','.','.','#'},
 		};
-
+		
 int main()
 {
 	int startx;    // initialised variables to store x and y positions of start
 	int starty;
 	// user inputs
 	cout<<"please enter the start position: "<<endl;   // the start coordinates
-	cin>>startx>>starty;
+	cin>>starty>>startx;
+	
+	// Checking for valid start and goal positions
+	while(maze[startx][starty]=='#'||startx<0||startx>5||starty<0||starty>5){
+		cout<<" Invalid placement of the start position, here is the maze:"<<endl;
+		for(int i=0;i<6;i++){
+			for(int j=0;j<6;j++)
+			{
+				cout<<maze[i][j]<<" " ;
+			}
+		cout<<endl;
+		  }
+		cout<< "Please enter different coordinates for the start position:"<<endl;
+		cin>>starty>>startx;
+	}
 	cout<<"please enter the goal position: "<<endl;     // the end coordinates
-	cin>>goalx>>goaly;
+	cin>>goaly>>goalx;
+	while(maze[goalx][goaly]=='#'||goalx<0||goalx>5||goaly<0||goaly>5){
+		cout<<" Invalid placement of the goal position, here is the maze:"<<endl;
+		for(int i=0;i<6;i++){
+			for(int j=0;j<6;j++)
+			{
+				cout<<maze[i][j]<<" " ;
+			}
+		cout<<endl;
+		  }
+		cout<< "Please enter different coordinates for the goal position:"<<endl;
+		cin>>goaly>>goalx;
+	}
 	
 	maze[startx][starty]='S';
 	maze[goalx][goaly]='G';
-	cout<<"the map looks like this. "<<endl;
+	cout<<"The maze looks like this: "<<endl;
 	for(int i=0;i<6;i++){
 		for(int j=0;j<6;j++)
 			{
@@ -44,6 +70,10 @@ int main()
 		cout<<endl;
 		  }
 	findPath(startx,starty);
+	if(maze[startx][starty]=='+')
+		cout<<"There exists a path from the start to the goal position!!"<<endl;
+	else 
+		cout<<" No path has been found!!"<<endl;
 }
 // obstacle check function
 
@@ -72,7 +102,7 @@ bool goalCheck(int x,int y,int goalx,int goaly)
 	{
 		cout<<"the solution path."<<endl;
 		for(int i=0;i<6;i++){
-		for(int j=0;j<6;j++)
+			for(int j=0;j<6;j++)
 			{
 				cout<<maze[i][j]<<" " ;
 			}
@@ -133,6 +163,7 @@ vector<int> goEast(int x,int y)
 }
 
 // going west
+
 vector<int> goWest(int x,int y)
 {
 
@@ -148,6 +179,7 @@ vector<int> goWest(int x,int y)
 
 
 // findpath recursive function
+
 bool findPath(int x,int y)
 {
 	if(outsideMaze(x,y))
@@ -174,6 +206,6 @@ bool findPath(int x,int y)
 		return true;
 	}
 	unmarkPath(x,y,maze,maze.size());
+	
 	return false;
-
 }
